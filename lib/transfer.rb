@@ -11,25 +11,33 @@ class Transfer
   
   def valid? 
     # binding.pry
-    # status_both = sender.BankAccount.status + receiver.BankAccount.status
-    
     
     sender.valid? && receiver.valid?
     
     #valid if both accounts status == "open" and balance > 0 
     #should reject transfer if accounts aren't valid.. or if balance <=0
-    
-    #pry says: @receiver=#<BankAccount:0x0000000002c3c858 @balance=1000, @name="Avi", @status="open">,
-    #pry says: @sender=#<BankAccount:0x0000000002c3c6a0
-    
-    # if status_both == "open" && sender.balance > 0
-    #   self.transfer_status = "complete"
-    # else 
-    #   self.transfer_status = "rejected"
-    # end
+  
   end
   
+  def execute_transaction
+    if valid? && sender.balance > amount && status == "pending"
+      sender.balance -= amount
+      receiver.balance += amount
+      self.status = "complete"
+    else 
+      self.status = "rejected"
+      return "Transaction rejected. Please check your account balance."
+  end
+    
+    def reverse_transfer
+      if self.status == "complete"
+        self.status = "reversed"
+        sender.balance += amount
+      receiver.balance -= amount
+    end
+    end
   
+  end
   
   
 end
