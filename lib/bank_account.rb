@@ -1,7 +1,8 @@
 require 'pry'
 
 class BankAccount
-  attr_reader :name,:balance, :status
+  attr_accessor :balance, :status
+  attr_reader :name
 
 
   def initialize(name)
@@ -12,8 +13,6 @@ class BankAccount
 
   def deposit(amount)
     @balance += amount
-    #binding.pry
-
   end
 
   def display_balance
@@ -21,8 +20,8 @@ class BankAccount
   end
 
   def valid?
-    #@broke.balance = 0
-    #@status = 
+    status == "open" && balance > 0
+
   end
 
   def close_account
